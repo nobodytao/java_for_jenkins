@@ -1,0 +1,26 @@
+my-important-servers:
+  children:
+    web-hosts:
+    cicd-hosts:
+    windows-hosts:
+
+web-hosts:
+  hosts:
+    web-server-1:
+      ansible_host: '10.10.10.1'
+    web-server-2:
+      ansible_host: '10.10.10.2'
+
+cicd-hosts:
+  hosts:
+    cicd-server-1:
+       ansible_host: '10.10.10.3'
+    cicd-server-2:
+      ansible_host: '10.10.10.4'
+
+windows-hosts:
+  hosts:
+    win-server-1:
+      ansible_host: '10.10.10.5'
+    win-server-2:
+      ansible_host: '10.10.10.6'
