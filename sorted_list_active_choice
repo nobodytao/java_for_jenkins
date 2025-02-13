@@ -1,0 +1,39 @@
+import org.yaml.snakeyaml.Yaml
+import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.Map
+import java.util.Collections
+
+def grouplist = []
+def serverlist = []
+def resultlist = []
+resultlist.add('All')
+
+//File with text lays on Jenkins server
+def file = "/path/to/file_with_inventory.yml" 
+InputStream inputStream = Files.newInputStream(Paths.get(file))
+Yaml yaml = new Yaml();
+
+Map<String, Object> yamlMap = yaml.load(inputStream)
+
+for (String groupName : yamlMap.keySet()) {
+                     if (groupName != null) { grouplist.add(groupName) }
+}
+
+for (String groupName : yamlMap.keySet()) {
+                    Map<String, Object> section = (Map<String, Object>) yamlMap.get(groupName)
+                    Map<String, Object> hostsMap = (Map<String, Object>) section.get("hosts")
+                   if (hostsMap != null) {
+                                        for (String serverName : hostsMap.keySet()) {
+                                                             serverlist.add(serverName)
+                                        }
+                    }
+}
+
+Collections.sort(grouplist)
+Collections.sort(serverlist)
+resultlist.addAll(grouplist)
+resultlist.addAll(serverlist)
+
+return resultlist
